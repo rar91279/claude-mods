@@ -1,0 +1,15 @@
+{
+  "name": "openspec-pane",
+  "version": "0.1.0",
+  "description": "A pane listing the most recently touched OpenSpec changes with their task progress",
+  "author": { "name": "rar91279" },
+  "repository": "https://github.com/rar91279/claude-mods",
+  "userConfig": {
+    "count": {
+      "type": "number",
+      "title": "Changes shown",
+      "description": "How many of the most recent OpenSpec changes the pane lists",
+      "default": 8
+    }
+  }
+}
