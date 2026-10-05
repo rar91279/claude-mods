@@ -25,7 +25,14 @@ Set it in the `/config` menu, or in settings under `pluginConfigs.openspec-pane.
 
 ## Install
 
-Load it from a clone of this repository:
+From the marketplace:
+
+```sh
+claude plugin marketplace add rar91279/claude-mods
+claude plugin install openspec-pane@claude-mods
+```
+
+Or load it from a clone of this repository:
 
 ```sh
 claude --plugin-dir /path/to/claude-mods/openspec-pane

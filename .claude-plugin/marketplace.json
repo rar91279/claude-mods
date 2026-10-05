@@ -1,0 +1,16 @@
+{
+  "name": "claude-mods",
+  "owner": { "name": "rar91279" },
+  "metadata": {
+    "description": "Claude Code mods: panes, bands and hooks"
+  },
+  "plugins": [
+    {
+      "name": "openspec-pane",
+      "source": "./openspec-pane",
+      "description": "A pane listing the most recently touched OpenSpec changes with their task progress",
+      "version": "0.1.0",
+      "author": { "name": "rar91279" }
+    }
+  ]
+}
