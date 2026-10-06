@@ -381,6 +381,44 @@ export const register: Register = (on, options) => {
     return { text: 'OpenSpec pane opened.' }
   })
 
+  // The band above the prompt offers the pane while it is closed, so it redraws whenever the pane
+  // opens or closes (by a button, /openspec, its close mark or Escape).
+  on('ui.open', async ($, e, next) => {
+    const opened = await next(e)
+    if (e.id === PANE) $.ui.invalidate('ui.render')
+    return opened
+  })
+
+  on('ui.close', async ($, e, next) => {
+    const closed = await next(e)
+    if (e.id === PANE) $.ui.invalidate('ui.render')
+    return closed
+  })
+
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (e.props.hasSurvey || !(await isSetUp($))) return next(e)
+    const panes = await $.ui.panes().catch(() => [])
+    if (panes.some(pane => pane.id === PANE && pane.isPlaced)) return next(e)
+
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const { active, archivedTotal, archivedLeftOpen } = await recentChanges(
+      { list: path => $.fs.list(path), read: path => $.fs.read(path) },
+      0,
+      () => 1,
+    )
+    return (
+      <Box columnGap={2}>
+        <Button key="open-pane" variant="primary" onPress={() => void $.ui.open({ id: PANE, title: TITLE, focus: true })}>
+          📋 OpenSpec
+        </Button>
+        <Text color="green">{`${ICON.active} ${active.length} active`}</Text>
+        <Text dimColor={archivedLeftOpen === 0} color={archivedLeftOpen > 0 ? 'yellow' : undefined}>
+          {`${ICON.archived} ${archivedTotal} archived${archivedLeftOpen > 0 ? ` · ⚠️ ${archivedLeftOpen} left open` : ''}`}
+        </Text>
+      </Box>
+    )
+  })
+
   on('tool.call', { tool: ['Write', 'Edit', 'Bash', 'PowerShell'] }, async ($, e, next) => {
     const ran = await next(e)
     if (touchesSpecs(e)) $.ui.invalidate('ui.render')

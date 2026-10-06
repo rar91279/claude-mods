@@ -191,3 +191,34 @@ test('in the Tasks tab, ☐ checks a left-open task of an archived change in its
   expect(written).toEqual([[`${change}/tasks.md`, '## 2. Width\n- [x] 2.3 done\n- [x] 2.4 Settle the width\n']])
   await ui.unmount()
 })
+
+test('the band above the prompt offers the pane while it is closed, and opens it', async ($, on) => {
+  // With the pane open the band passes the drawing on; here the test is what lies beneath.
+  on('ui.render', async () => ({ type: 'Box', props: {}, children: [] }) as any)
+  mock.clock(on)
+  noFiles(on, true)
+  let isOpen = false
+  on('ui.panes', async () => ({
+    value: isOpen ? [{ id: 'openspec', title: 'OpenSpec', isShown: true, isFocused: false, isPlaced: true }] : [],
+  }))
+  const opened: string[] = []
+  on('ui.open', async (_$: any, e: any) => {
+    opened.push(e.id)
+    isOpen = true
+    return { value: { isPlaced: true } }
+  })
+  const band = {
+    component: 'AbovePrompt',
+    requestId: 'band',
+    props: { hasSurvey: false, isWorking: false, maxRows: 3, bodyColumns: 120, scroll: { offset: 0, bodyRows: 3 }, view: {} },
+  } as const
+  const ui = await $.ui.mount({ plugin: 'openspec-pane', surface: 'terminal', ...band })
+  expect(await ui.find({ key: 'open-pane' })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /0 active/ })).toBeDefined()
+  await ui.press({ key: 'open-pane' })
+  expect(opened).toEqual(['openspec'])
+  await ui.unmount()
+  const again = await $.ui.mount({ plugin: 'openspec-pane', surface: 'terminal', ...band })
+  expect(await again.find({ key: 'open-pane' })).toBeUndefined()
+  await again.unmount()
+})
