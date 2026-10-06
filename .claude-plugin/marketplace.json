@@ -8,8 +8,8 @@
     {
       "name": "openspec-pane",
       "source": "./openspec-pane",
-      "description": "A pane listing the most recently touched OpenSpec changes with their task progress",
-      "version": "0.1.0",
+      "description": "A pane for OpenSpec changes: task progress and next task, a tabbed detail view, archive with confirmation, left-open tasks to tick off, and setup for new projects",
+      "version": "0.5.0",
       "author": { "name": "rar91279" }
     }
   ]

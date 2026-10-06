@@ -1,15 +1,16 @@
 {
   "name": "openspec-pane",
-  "version": "0.1.0",
-  "description": "A pane listing the most recently touched OpenSpec changes with their task progress",
+  "version": "0.5.0",
+  "description": "A pane for OpenSpec changes: task progress and next task, a tabbed detail view, archive with confirmation, left-open tasks to tick off, and setup for new projects",
   "author": { "name": "rar91279" },
   "repository": "https://github.com/rar91279/claude-mods",
+  "types": "./types/index.d.ts",
   "userConfig": {
-    "count": {
+    "staleDays": {
       "type": "number",
-      "title": "Changes shown",
-      "description": "How many of the most recent OpenSpec changes the pane lists",
-      "default": 8
+      "title": "Postponed after (days)",
+      "description": "An active change nobody has touched for this many days is shown as postponed",
+      "default": 14
     }
   }
 }

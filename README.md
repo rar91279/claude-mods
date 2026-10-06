@@ -13,4 +13,4 @@ claude plugin install <mod>@claude-mods
 
 | Mod | What it does |
 | --- | --- |
-| [openspec-pane](openspec-pane) | A pane listing the most recently touched OpenSpec changes with their task progress (`/openspec`) |
+| [openspec-pane](openspec-pane) | OpenSpec changes in a pane (`/openspec`): task progress and next task, a tabbed detail view (proposal, design, tasks, specs), archive with confirmation, left-open tasks to tick off, and one-click setup |
