@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { ago, archivedRowsLeft, barParts, pagesByHeight, plainInline, prettySpec, prettyTasks, checkTask, markdownPieces, commandFor, openTasksBySection, percentOf, missingWorkflows, openTasksOf, progressOf, recentChanges, stateOf, titleOf, type Change, type SpecFs } from './openspec'
+import { ago, leftOpenNote, archivedRowsLeft, barParts, pagesByHeight, plainInline, prettySpec, prettyTasks, checkTask, markdownPieces, commandFor, openTasksBySection, percentOf, missingWorkflows, openTasksOf, progressOf, recentChanges, stateOf, titleOf, type Change, type SpecFs } from './openspec'
 
 const tree: Record<string, { mtimeMs?: number; text?: string; dir?: true }> = {
   'openspec/changes/add-auth': { dir: true },
@@ -249,4 +249,8 @@ test('splits long Markdown into whole pieces, at blank lines, headings and fence
   const long = markdownPieces('z'.repeat(70), 30)
   expect(long.every(piece => piece.length <= 30)).toBe(true)
   expect(long.join('')).toBe('z'.repeat(70))
+})
+
+test('says how many archived changes are unfinished', () => {
+  expect(leftOpenNote(4)).toBe('⚠️ 4 unfinished')
 })

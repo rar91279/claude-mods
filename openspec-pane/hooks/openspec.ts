@@ -194,11 +194,12 @@ export const recentChanges = async (
 ): Promise<Changes> => {
   const active = await describe(fs, await datedDirs(fs, CHANGES, false))
   const archived = await datedDirs(fs, `${CHANGES}/archive`, true)
+  // How many tasks each archived change left unchecked.
   const leftOpen = await Promise.all(
-    archived.map(async dir => openTasksOf(await readOr(fs, `${dir.path}/tasks.md`)).length > 0),
+    archived.map(async dir => openTasksOf(await readOr(fs, `${dir.path}/tasks.md`)).length),
   )
   const pages = pagesByHeight(
-    leftOpen.map(isLeftOpen => (isLeftOpen ? 2 : 1)),
+    leftOpen.map(open => (open > 0 ? 2 : 1)),
     archivedRows(active),
   )
   const page = Math.min(Math.max(0, archivedPage), pages.length - 1)
@@ -208,7 +209,7 @@ export const recentChanges = async (
     active,
     archived: await describe(fs, archived.slice(start, end)),
     archivedTotal: archived.length,
-    archivedLeftOpen: leftOpen.filter(Boolean).length,
+    archivedLeftOpen: leftOpen.filter(open => open > 0).length,
     archivedPage: page,
     archivedPages: pages.length,
   }
@@ -369,3 +370,6 @@ export const plainInline = (text: string) =>
     .replace(/(\*\*|__)(.+?)\1/g, '$2')
     .replace(/(^|[^\w*])\*(?!\s)(.+?)\*(?!\w)/g, '$1$2')
     .replace(/(^|\W)_(?!\s)(.+?)_(?!\w)/g, '$1$2')
+
+/** The archive's warning: how many archived changes were closed with tasks open, "⚠️ 4 unfinished". */
+export const leftOpenNote = (changes: number) => `⚠️ ${changes} unfinished`

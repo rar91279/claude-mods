@@ -1,6 +1,6 @@
 {
   "name": "openspec-pane",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A pane for OpenSpec changes: task progress and next task, a tabbed detail view, archive with confirmation, left-open tasks to tick off, setup for new projects, and a band to open it",
   "author": { "name": "rar91279" },
   "repository": "https://github.com/rar91279/claude-mods",

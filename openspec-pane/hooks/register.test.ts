@@ -183,7 +183,7 @@ test('in the Tasks tab, ☐ checks a left-open task of an archived change in its
   const ui = await $.ui.mount({ plugin: 'openspec-pane', surface: 'terminal', ...PANE })
   expect(await ui.find({ type: 'Text', text: /left open in/ })).toBeUndefined()
   await ui.press({ key: 'archived' })
-  expect(await ui.find({ type: 'Text', text: /1 left open/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /1 left open:/ })).toBeDefined()
   await ui.press({ key: `open:${change}` })
   await ui.press({ key: 'tab:tasks' })
   expect(await ui.find({ type: 'Text', text: /1 of 2 tasks open, though archived/ })).toBeDefined()

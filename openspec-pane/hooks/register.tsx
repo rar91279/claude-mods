@@ -12,6 +12,7 @@ import {
   markdownPieces,
   commandFor,
   filesOf,
+  leftOpenNote,
   missingWorkflows,
   openTasksBySection,
   openTasksOf,
@@ -413,7 +414,7 @@ export const register: Register = (on, options) => {
         </Button>
         <Text color="green">{`${ICON.active} ${active.length} active`}</Text>
         <Text dimColor={archivedLeftOpen === 0} color={archivedLeftOpen > 0 ? 'yellow' : undefined}>
-          {`${ICON.archived} ${archivedTotal} archived${archivedLeftOpen > 0 ? ` · ⚠️ ${archivedLeftOpen} left open` : ''}`}
+          {`${ICON.archived} ${archivedTotal} archived${archivedLeftOpen > 0 ? ` · ${leftOpenNote(archivedLeftOpen)}` : ''}`}
         </Text>
       </Box>
     )
@@ -461,7 +462,7 @@ export const register: Register = (on, options) => {
         archivedRowsLeft(e.props.scroll.bodyRows, e.props.bodyColumns, shown),
       )
     // Archived changes closed with tasks unchecked turn the archive yellow, in the card and the list.
-    const leftOpenNote = `⚠️ ${archivedLeftOpen} left open`
+    const leftOpenText = leftOpenNote(archivedLeftOpen)
     const isExpanded = await read($, showArchived)
     const now = await $.clock.now()
     const hasTitle = e.props.bodyColumns >= WITH_TITLE
@@ -522,7 +523,7 @@ export const register: Register = (on, options) => {
           <Text color="green">{`${ICON.active} ${active.length - postponed} active`}</Text>
           {postponed > 0 && <Text color="yellow">{`${ICON.postponed} ${postponed} postponed`}</Text>}
           <Text color={archivedLeftOpen > 0 ? "yellow" : undefined} dimColor={archivedLeftOpen === 0}>
-            {`${ICON.archived} ${archivedTotal} archived${archivedLeftOpen > 0 ? ` · ${leftOpenNote}` : ""}`}
+            {`${ICON.archived} ${archivedTotal} archived${archivedLeftOpen > 0 ? ` · ${leftOpenText}` : ""}`}
           </Text>
         </Box>
         <Box columnGap={1}>
@@ -688,7 +689,7 @@ export const register: Register = (on, options) => {
               <Button key="archived" plain dimColor={archivedLeftOpen === 0} onPress={() => void update($, showArchived, shown => !shown)}>
                 {`${isExpanded ? '▾' : '▸'} ${ICON.archived} ${archivedTotal} archived`}
               </Button>
-              {archivedLeftOpen > 0 && <Text color="yellow">{leftOpenNote}</Text>}
+              {archivedLeftOpen > 0 && <Text color="yellow">{leftOpenText}</Text>}
             </Box>
           </Box>
         )}

@@ -9,7 +9,7 @@
       "name": "openspec-pane",
       "source": "./openspec-pane",
       "description": "A pane for OpenSpec changes: task progress and next task, a tabbed detail view, archive with confirmation, left-open tasks to tick off, setup for new projects, and a band to open it",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "author": { "name": "rar91279" }
     }
   ]
